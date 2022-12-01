@@ -27,10 +27,12 @@ def add_benford(df,observed_count_name):
   import numpy as np
   import pandas as pd
   
+  benfords = np.array([.301, .176, .125, .097, .079, 
+                       .067, .058, .051, .046], dtype=np.float64)
+  
   benford_df = (df.assign(
-      expected_count = lambda x: x[observed_count_name].sum() * \
-      np.array([.301, .176, .125, .097, .079, .067, .058, .051, .046], dtype=np.float64),
-      expected_mean = [.301, .176, .125, .097, .079, .067, .058, .051, .046]))
+      expected_count = lambda x: x[observed_count_name].sum() * benfords,
+      expected_mean = benfords))
   return benford_df
 
 final_table = add_benford(pivoted_data, 'observed_count')
